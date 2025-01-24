@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://tp-ss.github.io/PFP2025.jpg" type="image/jpeg">    
+    <title>C:\\Users\\Tp></title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background: url('https://tp-ss.github.io/25.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .terminal {
+            width: 95%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #888888;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .spotify {
+            width: 95%;
+            max-width: 600px;
+            margin: 20px;
+        }
+
+        .line {
+            margin: 8px 0;
+        }
+
+        .label {
+            color: #999999;
+        }
+
+        .value {
+            color: #ffffff;
+        }
+
+        .blinking {
+            animation: blink 1s steps(2, start) infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #444;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #666;
+        }
+
+        @media screen and (max-width: 768px) {
+            .terminal, .spotify {
+                font-size: 14px;
+                padding: 10px;
+                margin: 15px;
+            }
+
+            .header img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .terminal, .spotify {
+                font-size: 12px;
+                padding: 10px;
+                margin: 10px auto;
+                width: 90%;
+            }
+
+            .header img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .header h1 {
+                font-size: 16px;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const terminal = document.querySelector(".terminal");
+            const lines = [
+                () => `<span class='label'>C:\\Users\\Tp>TIME</span> <span class='value'>${new Date().toLocaleTimeString()}</span>`,
+                () => `<span class='label'>C:\\Users\\Tp>DATE</span> <span class='value'>${new Date().toLocaleDateString()}</span>`,
+                () => `<span class='label'>C:\\Users\\Tp>DAY</span> <span class='value'>[${new Date().toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase()}]</span>`,
+                () => `<span class='label'>C:\\Users\\Tp>LOG</span> <span class='value'>Nothing is true.</span>`,
+                () => `<span class='label'>C:\\Users\\Tp>20X4</span> <span class='value'>41 72 65 20 79 6F 75 20 6F 6B 61 79 3F</span>`
+            ];
+
+            let delay = 0;
+
+            lines.forEach((lineGenerator, index) => {
+                setTimeout(() => {
+                    const newLine = document.createElement("div");
+                    newLine.className = "line";
+                    newLine.innerHTML = lineGenerator();
+                    terminal.appendChild(newLine);
+
+                    if (index === lines.length - 1) {
+                        const cursor = document.createElement("span");
+                        cursor.className = "blinking";
+                        cursor.textContent = "|";
+                        terminal.appendChild(cursor);
+                    }
+                }, delay);
+
+                delay += 600; // Slightly slower delay (600ms per line)
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img src="https://tp-ss.github.io/PFP2025.jpg" alt="Logo">
+        <h1>Tp</h1>
+    </div>
+    <div class="terminal"></div>
+        <div class="terminal">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0hJ3rZ2RT3oGe41CehYadY?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <button onclick="window.open('https://open.spotify.com/playlist/0hJ3rZ2RT3oGe41CehYadY?si=80659b50056741f4', '_blank')">2125 - Listen On Spotify</button>
+    </div>
+    <div class="terminal">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5Kb0NPgMvWJmwufHU1q0Tf?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <button onclick="window.open('https://open.spotify.com/playlist/5Kb0NPgMvWJmwufHU1q0Tf?si=6adef6f0d6a940b7', '_blank')">2024 - Listen On Spotify</button>
+    </div>
+</body>
+</html>
