@@ -1,155 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>C:\Users\Osama></title>
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Courier New', Courier, monospace;
-        background: url('https://ossaa4.github.io/25x.gif') no-repeat center center fixed;
-        background-size: cover;
-        color: #00FF00;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        height: 100vh;
-        overflow: hidden;
-        text-shadow: 0 0 5px #00FF00;
-    }
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    background: url('https://ossaa4.github.io/25x.gif') no-repeat center center fixed;
+    background-size: cover;
+    color: #00ff00;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
-    .header {
-        background: black;
-        color: #00FF00;
-        padding: 15px 30px;
-        border-radius: 8px;
-        font-size: 28px;
-        letter-spacing: 2px;
-        margin-bottom: 20px;
-        user-select: none;
-        cursor: default;
-        box-shadow: 0 0 15px #00FF00;
-        width: 320px;
-        text-align: center;
-    }
+  .header {
+    background-color: black;
+    color: #00ff00;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 28px;
+    font-weight: bold;
+    width: max-content;
+    margin-bottom: 25px;
+    user-select: none;
+    cursor: default;
+  }
 
+  .terminal {
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 12px;
+    padding: 20px 30px;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 0 20px #00ff00aa;
+  }
+
+  .line {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+
+  .label {
+    color: #999999;
+  }
+
+  .value {
+    color: #00ff00;
+    font-weight: bold;
+  }
+
+  a {
+    color: #00ff00;
+    text-decoration: underline;
+  }
+  
+  h2 {
+    margin-top: 25px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #00ff00;
+    padding-bottom: 6px;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  ul {
+    margin: 6px 0 12px 20px;
+    color: #00ff00;
+  }
+
+  ul li {
+    margin-bottom: 6px;
+  }
+
+  @media(max-width: 768px) {
     .terminal {
-        background: rgba(0, 0, 0, 0.85);
-        border: 2px solid #00FF00;
-        border-radius: 10px;
-        padding: 25px 30px;
-        max-width: 600px;
-        width: 90vw;
-        box-shadow: 0 0 20px #00FF00;
-        overflow-y: auto;
-        max-height: 80vh;
+      max-width: 90vw;
+      padding: 15px 20px;
     }
-
-    .line {
-        margin: 12px 0;
-        white-space: pre-wrap;
-        font-size: 16px;
+    .header {
+      font-size: 24px;
     }
-
-    .label {
-        color: #00FF00;
-        font-weight: bold;
-    }
-
-    .value {
-        color: #00FF00;
-        margin-left: 10px;
-    }
-
-    .cursor {
-        display: inline-block;
-        width: 10px;
-        background-color: #00FF00;
-        animation: blink 1s steps(2, start) infinite;
-        margin-left: 3px;
-        vertical-align: bottom;
-        height: 18px;
-    }
-
-    @keyframes blink {
-        50% { opacity: 0; }
-    }
-
-    /* Scrollbar styling */
-    .terminal::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    .terminal::-webkit-scrollbar-track {
-        background: #000;
-    }
-
-    .terminal::-webkit-scrollbar-thumb {
-        background: #00FF00;
-        border-radius: 4px;
-    }
+  }
 </style>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const terminal = document.querySelector(".terminal");
-        const lines = [
-            "C:\\Users\\Osama> SYSTEM INFO",
-            "Name: Osama Allouch Ibrahimi",
-            "Role: Specialist in Networks, IT Security & Tech Systems",
-            "",
-            "C:\\Users\\Osama> EXPERIENCE",
-            "- IT Solutions Intern @ NexTReT (Apr 2025 - Present)",
-            "  • Support & maintenance of Windows Server & cloud services (Azure, Office 365)",
-            "  • Incident management using Freshservice (ITSM)",
-            "  • VPN & Citrix remote access support",
-            "",
-            "- IT Technician Intern @ Grup Informàtic R.M.C (Jan 2023 - Jul 2023)",
-            "  • Systems & network troubleshooting and support",
-            "",
-            "- Hardware Maintenance @ Foxlive (Mar 2021 - Aug 2021)",
-            "  • Assembly & repair of IT equipment",
-            "",
-            "C:\\Users\\Osama> SKILLS",
-            "• Network Administration",
-            "• Cybersecurity",
-            "• Windows Server & Active Directory",
-            "• VPN, Citrix, Teampass",
-            "",
-            "C:\\Users\\Osama> LOCATION",
-            "Barcelona, Catalonia, Spain",
-            "",
-            "C:\\Users\\Osama> LINKEDIN",
-            "www.linkedin.com/in/osama-allouch",
-            "",
-            "C:\\Users\\Osama> _"
-        ];
-
-        let index = 0;
-        function showLine() {
-            if (index < lines.length) {
-                const line = document.createElement("div");
-                line.className = "line";
-                line.textContent = lines[index];
-                terminal.appendChild(line);
-                terminal.scrollTop = terminal.scrollHeight;
-                index++;
-                setTimeout(showLine, 400);
-            } else {
-                const cursor = document.createElement("span");
-                cursor.className = "cursor";
-                terminal.appendChild(cursor);
-            }
-        }
-
-        showLine();
-    });
+  // Script para la hora actual en tiempo real
+  function updateTime() {
+    const timeEl = document.getElementById('time');
+    const dateEl = document.getElementById('date');
+    const dayEl = document.getElementById('day');
+    const now = new Date();
+    timeEl.textContent = now.toLocaleTimeString();
+    dateEl.textContent = now.toLocaleDateString();
+    dayEl.textContent = now.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    updateTime();
+    setInterval(updateTime, 1000);
+  });
 </script>
 </head>
 <body>
-    <div class="header">Osama</div>
-    <div class="terminal"></div>
+  <div class="header">C:\Users\Osama></div>
+  
+  <div class="terminal">
+    <div class="line"><span class="label">NAME:</span> <span class="value">Osama Allouch Ibrahimi</span></div>
+    <div class="line"><span class="label">TITLE:</span> <span class="value">Especialista en Redes, Seguridad Informática y Sistemas Tecnológicos</span></div>
+    <div class="line"><span class="label">LOCATION:</span> <span class="value">Barcelona, Cataluña, España</span></div>
+    <div class="line"><span class="label">CONTACT:</span> <a href="mailto:osama080050@gmail.com" class="value">osama080050@gmail.com</a></div>
+    <div class="line"><span class="label">LINKEDIN:</span> <a href="https://www.linkedin.com/in/osama-allouch/" target="_blank" rel="noopener" class="value">linkedin.com/in/osama-allouch</a></div>
+
+    <h2>RESUMEN</h2>
+    <div class="line">Especialista en Redes, Seguridad Informática y Sistemas Tecnológicos con 5 años de formación en IT y 1 año de experiencia profesional en entornos corporativos.</div>
+
+    <h2>EXPERIENCIA</h2>
+    <div class="line"><strong>Becario IT Solutions, NexTReT</strong> (abr. 2025 - actualidad)</div>
+    <ul>
+      <li>Soporte integral a usuarios, gestión de incidencias en Freshservice (ITSM).</li>
+      <li>Administración de Windows Server, Active Directory, DNS y DHCP.</li>
+      <li>Gestión de entornos Microsoft Azure, Entra ID, Office 365 y Teams.</li>
+      <li>Soporte hardware, redes, accesos remotos Citrix y VPN FortiClient.</li>
+      <li>Gestión segura de credenciales con Teampass y elaboración de informes técnicos.</li>
+    </ul>
+    <div class="line"><strong>Técnico en Sistemas Microinformáticos y Redes, Grup Informàtic R.M.C.</strong> (ene. 2023 - jul. 2023)</div>
+    <ul><li>Soporte técnico y resolución de incidencias.</li></ul>
+    <div class="line"><strong>Técnico de Montaje y Mantenimiento de Equipos Informáticos, Foxlive</strong> (mar. 2021 - ago. 2021)</div>
+    <ul><li>Mantenimiento y reparación de equipos informáticos.</li></ul>
+
+    <h2>EDUCACIÓN</h2>
+    <div class="line"><strong>Administración de Sistemas Informáticos en Red</strong> (Ciclo Formativo Grado Superior) - Institut Poblenou ECAIB (2023-2025)</div>
+    <div class="line"><em>Especialización en Ciberseguridad</em></div>
+    <div class="line"><strong>Sistemas Microinformáticos y Redes</strong> (Ciclo Formativo Grado Medio) - Institut Poblenou ECAIB (2021-2023)</div>
+
+    <h2>PROYECTO DESTACADO</h2>
+    <div class="line"><strong>Hackathon FP Challenge 2023</strong> - Ganador Reto Nº 4: Electrónicos y Muebles circulares. Colaboración con Centrinno, Akasha Hub y Andròmines.</div>
+
+    <h2>SKILLS</h2>
+    <ul>
+      <li>Administración de Sistemas Informáticos</li>
+      <li>Redes y Seguridad Informática</li>
+      <li>Soporte Técnico y Resolución de Incidencias</li>
+      <li>Ciberseguridad</li>
+      <li>Gestión de VPN y accesos remotos</li>
+      <li>Mantenimiento y reparación de hardware</li>
+    </ul>
+
+    <h2>IDIOMAS</h2>
+    <ul>
+      <li>Español - Nativo</li>
+      <li>Catalán - Nativo</li>
+      <li>Rifeño - Nativo</li>
+      <li>Inglés - Bueno</li>
+    </ul>
+
+    <h2>FECHA Y HORA ACTUAL</h2>
+    <div class="line"><span class="label">TIME:</span> <span class="value" id="time"></span></div>
+    <div class="line"><span class="label">DATE:</span> <span class="value" id="date"></span></div>
+    <div class="line"><span class="label">DAY:</span> <span class="value" id="day"></span></div>
+  </div>
 </body>
 </html>
