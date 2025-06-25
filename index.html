@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C:\Users\Osama></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>C:\Usuarios\Osama></title>
     <style>
         body {
             margin: 0;
@@ -20,29 +20,26 @@
             overflow: hidden;
         }
 
-     .header {
-        text-align: center;
-        margin-bottom: 20px;
-        background-color: white;
-        color: black;
-        padding: 20px;
-        border: 0px solid #ccc;
-        border-radius: 10px;
-        display: inline-block;
-        cursor: pointer;
-        text-decoration: none;
-        width: 200px;
-    }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            cursor: pointer;
+            width: 200px;
+        }
 
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
 
-    .header h1 {
-        margin: 0;
-        font-size: 24px;
-    }
-
-    .header:hover {
-        background-color: #f9f9f9;
-    }
+        .header:hover {
+            background-color: #f9f9f9;
+        }
 
         .terminal {
             width: 95%;
@@ -52,12 +49,8 @@
             padding: 15px;
             border-radius: 10px;
             margin: 20px;
-        }
-
-        .spotify {
-            width: 95%;
-            max-width: 600px;
-            margin: 20px;
+            white-space: nowrap;
+            overflow-x: auto;
         }
 
         .line {
@@ -72,6 +65,12 @@
             color: #ffffff;
         }
 
+        a.value {
+            color: #ffffff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
         .blinking {
             animation: blink 1s steps(2, start) infinite;
         }
@@ -82,31 +81,11 @@
             }
         }
 
-        button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #444;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        button:hover {
-            background-color: #666;
-        }
-
         @media screen and (max-width: 768px) {
-            .terminal, .spotify {
+            .terminal {
                 font-size: 14px;
                 padding: 10px;
                 margin: 15px;
-            }
-
-            .header img {
-                width: 60px;
-                height: 60px;
             }
 
             .header h1 {
@@ -115,16 +94,11 @@
         }
 
         @media screen and (max-width: 480px) {
-            .terminal, .spotify {
+            .terminal {
                 font-size: 12px;
                 padding: 10px;
                 margin: 10px auto;
                 width: 90%;
-            }
-
-            .header img {
-                width: 50px;
-                height: 50px;
             }
 
             .header h1 {
@@ -133,43 +107,60 @@
         }
     </style>
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const terminal = document.querySelector(".terminal");
+        document.addEventListener("DOMContentLoaded", () => {
+            const terminal = document.querySelector(".terminal");
+            const now = new Date();
 
-        const now = new Date();
+            // Cálculo experiencia:
+            const mesesFijos = 7 + 6; // 13 meses
+            const mesInicio = 3; // Abril (0-based)
+            const mesActual = now.getMonth();
+            let mesesDesdeAbril = mesActual - mesInicio;
+            if (mesesDesdeAbril < 0) mesesDesdeAbril += 12;
 
-        const lines = [
-            () => `<span class='label'>C:\\Usuarios\\Osama>NOMBRE</span> <span class='value'>Osama</span>`,
-            () => `<span class='label'>C:\\Usuarios\\Osama>HORA</span> <span class='value'>${now.toLocaleTimeString('es-ES')}</span>`,
-            () => `<span class='label'>C:\\Usuarios\\Osama>FECHA</span> <span class='value'>${now.toLocaleDateString('es-ES')}</span>`,
-            () => `<span class='label'>C:\\Usuarios\\Osama>DIA</span> <span class='value'>[${now.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase()}]</span>`
-        ];
+            const totalMeses = mesesFijos + mesesDesdeAbril;
+            const años = Math.floor(totalMeses / 12);
+            const meses = totalMeses % 12;
 
-        let delay = 0;
+            let experienciaTexto = "";
+            if (años > 0) experienciaTexto += `${años} año${años > 1 ? "s" : ""}`;
+            if (meses > 0) experienciaTexto += (años > 0 ? " y " : "") + `${meses} mes${meses > 1 ? "es" : ""}`;
 
-        lines.forEach((lineGenerator, index) => {
-            setTimeout(() => {
-                const newLine = document.createElement("div");
-                newLine.className = "line";
-                newLine.innerHTML = lineGenerator();
-                terminal.appendChild(newLine);
+            const lines = [
+                () => `<span class='label'>C:\\Usuarios\\Osama>FECHA/HORA/DÍA</span> <span class='value'>${now.toLocaleDateString('es-ES')} ${now.toLocaleTimeString('es-ES')} [${now.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase()}]</span>`,
+                () => `<span class='label'>C:\\Usuarios\\Osama>USUARIO_COMPLETO</span> <span class='value'>Osama Allouch Ibrahimi</span>`,
+                () => `<span class='label'>C:\\Usuarios\\Osama>TITULAR</span> <span class='value'>Especialista en Redes, Seguridad Informática y Sistemas Tecnológicos</span>`,
+                () => `<span class='label'>C:\\Usuarios\\Osama>EMAIL</span> <a href="mailto:osama080050@gmail.com" class="value">osama080050@gmail.com</a>`,
+                () => `<span class='label'>C:\\Usuarios\\Osama>LINKEDIN</span> <a href="https://www.linkedin.com/in/osama080050" target="_blank" rel="noopener noreferrer" class="value">linkedin.com/in/osama080050</a>`,
+                () => `<span class='label'>C:\\Usuarios\\Osama>EXPERIENCIA_TOTAL</span> <span class='value'>${experienciaTexto}</span>`,
+                () => `<span class='label'>C:\\Usuarios\\Osama>TRABAJO_ACTUAL</span> <span class='value'>Desarrollador Web en TechSolutions</span>`
+            ];
 
-                if (index === lines.length - 1) {
-                    const cursor = document.createElement("span");
-                    cursor.className = "blinking";
-                    cursor.textContent = "|";
-                    terminal.appendChild(cursor);
-                }
-            }, delay);
+            let delay = 0;
+            lines.forEach((lineGenerator, index) => {
+                setTimeout(() => {
+                    const newLine = document.createElement("div");
+                    newLine.className = "line";
+                    newLine.innerHTML = lineGenerator();
+                    terminal.appendChild(newLine);
 
-            delay += 900; // 900ms entre líneas
+                    if (index === lines.length - 1) {
+                        const cursor = document.createElement("span");
+                        cursor.className = "blinking";
+                        cursor.textContent = "|";
+                        terminal.appendChild(cursor);
+                    }
+                }, delay);
+
+                delay += 900;
+            });
         });
-    });
-</script>
+    </script>
 </head>
 <body>
     <div class="header">
         <h1>Osama A.</h1>
     </div>
+    <div class="terminal"></div>
 </body>
 </html>
