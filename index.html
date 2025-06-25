@@ -65,12 +65,6 @@
             color: #ffffff;
         }
 
-        a.value {
-            color: #ffffff;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
         .blinking {
             animation: blink 1s steps(2, start) infinite;
         }
@@ -109,31 +103,10 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const terminal = document.querySelector(".terminal");
-            const now = new Date();
-
-            // Cálculo experiencia:
-            const mesesFijos = 7 + 6; // 13 meses
-            const mesInicio = 3; // Abril (0-based)
-            const mesActual = now.getMonth();
-            let mesesDesdeAbril = mesActual - mesInicio;
-            if (mesesDesdeAbril < 0) mesesDesdeAbril += 12;
-
-            const totalMeses = mesesFijos + mesesDesdeAbril;
-            const años = Math.floor(totalMeses / 12);
-            const meses = totalMeses % 12;
-
-            let experienciaTexto = "";
-            if (años > 0) experienciaTexto += `${años} año${años > 1 ? "s" : ""}`;
-            if (meses > 0) experienciaTexto += (años > 0 ? " y " : "") + `${meses} mes${meses > 1 ? "es" : ""}`;
 
             const lines = [
-                () => `<span class='label'>C:\\Users\\OAI>DATE</span> <span class='value'>${now.toLocaleDateString('es-ES')} ${now.toLocaleTimeString('es-ES')} [${now.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase()}]</span>`,
                 () => `<span class='label'>C:\\Users\\OAI>FULL_USER</span> <span class='value'>Osama Allouch Ibrahimi</span>`,
-                () => `<span class='label'>C:\\Users\\OAI>TITLE</span> <span class='value'>Especialista en Sistemas</span>`,
-                () => `<span class='label'>C:\\Users\\OAI>EMAIL</span> <a href="mailto:osama080050@gmail.com" class="value">osama080050@gmail.com</a>`,
-                () => `<span class='label'>C:\\Users\\OAI>LINKEDIN</span> <a href="https://www.linkedin.com/in/osama-allouch" target="_blank" rel="noopener noreferrer" class="value">linkedin.com/in/osama-allouch</a>`,
-                () => `<span class='label'>C:\\Users\\OAI>TOTAL_EXPERIENCE</span> <span class='value'>${experienciaTexto}</span>`,
-                () => `<span class='label'>C:\\Users\\OAI>CURRENT_POSITION</span> <span class='value'>Becario IT Solutions</span>`
+                () => `<span class='label'>C:\\Users\\OAI>TITLE</span> <span class='value'>Especialista en Sistemas</span>`
             ];
 
             let delay = 0;
