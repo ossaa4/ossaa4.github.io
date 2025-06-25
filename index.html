@@ -127,13 +127,13 @@
             if (meses > 0) experienciaTexto += (años > 0 ? " y " : "") + `${meses} mes${meses > 1 ? "es" : ""}`;
 
             const lines = [
-                () => `<span class='label'>C:\\Usuarios\\Osama>FECHA/HORA/DÍA</span> <span class='value'>${now.toLocaleDateString('es-ES')} ${now.toLocaleTimeString('es-ES')} [${now.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase()}]</span>`,
-                () => `<span class='label'>C:\\Usuarios\\Osama>USUARIO_COMPLETO</span> <span class='value'>Osama Allouch Ibrahimi</span>`,
-                () => `<span class='label'>C:\\Usuarios\\Osama>TITULAR</span> <span class='value'>Especialista en Redes, Seguridad Informática y Sistemas Tecnológicos</span>`,
-                () => `<span class='label'>C:\\Usuarios\\Osama>EMAIL</span> <a href="mailto:osama080050@gmail.com" class="value">osama080050@gmail.com</a>`,
-                () => `<span class='label'>C:\\Usuarios\\Osama>LINKEDIN</span> <a href="https://www.linkedin.com/in/osama080050" target="_blank" rel="noopener noreferrer" class="value">linkedin.com/in/osama080050</a>`,
-                () => `<span class='label'>C:\\Usuarios\\Osama>EXPERIENCIA_TOTAL</span> <span class='value'>${experienciaTexto}</span>`,
-                () => `<span class='label'>C:\\Usuarios\\Osama>TRABAJO_ACTUAL</span> <span class='value'>Desarrollador Web en TechSolutions</span>`
+                () => `<span class='label'>C:\\Users\\OAI>DATE</span> <span class='value'>${now.toLocaleDateString('es-ES')} ${now.toLocaleTimeString('es-ES')} [${now.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase()}]</span>`,
+                () => `<span class='label'>C:\\Users\\OAI>FULL_USER</span> <span class='value'>Osama Allouch Ibrahimi</span>`,
+                () => `<span class='label'>C:\\Users\\OAI>TITLE</span> <span class='value'>Especialista en Sistemas</span>`,
+                () => `<span class='label'>C:\\Users\\OAI>EMAIL</span> <a href="mailto:osama080050@gmail.com" class="value">osama080050@gmail.com</a>`,
+                () => `<span class='label'>C:\\Users\\OAI>LINKEDIN</span> <a href="https://www.linkedin.com/in/osama-allouch" target="_blank" rel="noopener noreferrer" class="value">linkedin.com/in/osama-allouch</a>`,
+                () => `<span class='label'>C:\\Users\\OAI>TOTAL_EXPERIENCE</span> <span class='value'>${experienciaTexto}</span>`,
+                () => `<span class='label'>C:\\Users\\OAI>CURRENT_POSITION</span> <span class='value'>Becario IT Solutions</span>`
             ];
 
             let delay = 0;
