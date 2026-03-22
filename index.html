@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Osama Allouch — IT Systems & Infrastructure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface2: #161616;
+      --border: #2a2a2a;
+      --accent: #00ff88;
+      --accent2: #00ccff;
+      --accent3: #ff6b6b;
+      --text: #e8e8e8;
+      --muted: #666;
+      --dim: #333;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    /* === SCANLINES OVERLAY === */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* === NAV === */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-logo span { color: var(--muted); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+    }
+
+    nav ul a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--accent); }
+
+    /* === HERO === */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 100px 60px 60px;
+      position: relative;
+      background: url('https://ossaa4.github.io/25.jpg') center/cover no-repeat;
+    }
+
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10,10,10,0.97) 40%, rgba(10,10,10,0.75) 100%);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+
+    .hero-tag {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    .hero-tag::before { content: '> '; color: var(--muted); }
+
+    h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.4s forwards;
+    }
+
+    h1 .accent { color: var(--accent); }
+
+    .hero-subtitle {
+      font-size: clamp(13px, 1.5vw, 16px);
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 520px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.6s forwards;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.8s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #00ffaa;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,255,136,0.25);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* Terminal block in hero */
+    .hero-terminal {
+      position: absolute;
+      right: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+      width: 380px;
+      background: rgba(17,17,17,0.95);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeLeft 0.8s 1s forwards;
+    }
+
+    .term-titlebar {
+      background: var(--surface2);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .term-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .term-dot.red { background: #ff5f57; }
+    .term-dot.yellow { background: #febc2e; }
+    .term-dot.green { background: #28c840; }
+
+    .term-title {
+      font-size: 11px;
+      color: var(--muted);
+      margin-left: 8px;
+    }
+
+    .term-body { padding: 16px; font-size: 12px; line-height: 1.9; }
+
+    .term-line { display: flex; flex-wrap: wrap; }
+    .term-prompt { color: var(--accent); margin-right: 6px; white-space: nowrap; }
+    .term-cmd { color: var(--accent2); }
+    .term-out { color: var(--text); padding-left: 18px; }
+    .term-muted { color: var(--muted); padding-left: 18px; font-size: 11px; }
+
+    .cursor {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: var(--accent);
+      animation: blink 1s steps(1) infinite;
+      vertical-align: middle;
+      margin-left: 2px;
+    }
+
+    /* === SECTIONS === */
+    section { padding: 100px 60px; }
+    section:nth-child(even) { background: var(--surface); }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 60px;
+    }
+
+    .section-num {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+    }
+
+    .section-title {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* === ABOUT === */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      max-width: 1000px;
+    }
+
+    .about-text {
+      font-size: 14px;
+      line-height: 2;
+      color: #bbb;
+    }
+
+    .about-text p + p { margin-top: 16px; }
+
+    .skills-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .skill-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .skill-name {
+      width: 160px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .skill-bar {
+      flex: 1;
+      height: 3px;
+      background: var(--dim);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .skill-fill.animated { transform: scaleX(1); }
+
+    /* === EXPERIENCE === */
+    .timeline {
+      position: relative;
+      max-width: 860px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      padding: 0 0 48px 40px;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s;
+    }
+
+    .timeline-item.visible { opacity: 1; transform: none; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -5px;
+      top: 6px;
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+    }
+
+    .timeline-dot.dim { background: var(--dim); }
+
+    .timeline-date {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    .timeline-company {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    .timeline-role {
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .timeline-desc {
+      font-size: 13px;
+      line-height: 1.9;
+      color: #999;
+      max-width: 640px;
+    }
+
+    .timeline-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      background: rgba(0,255,136,0.06);
+      border: 1px solid rgba(0,255,136,0.15);
+      border-radius: 3px;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+
+    .tag.blue {
+      background: rgba(0,204,255,0.06);
+      border-color: rgba(0,204,255,0.15);
+      color: var(--accent2);
+    }
+
+    /* === PROJECTS === */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+      cursor: default;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,255,136,0.03), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: rgba(0,255,136,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    }
+
+    .project-card:hover::before { opacity: 1; }
+
+    .project-num {
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.15em;
+      margin-bottom: 20px;
+    }
+
+    .project-icon {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .project-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .project-desc {
+      font-size: 12px;
+      line-height: 1.8;
+      color: #777;
+      margin-bottom: 20px;
+    }
+
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .stack-chip {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 2px;
+      background: var(--dim);
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    .project-card.featured {
+      border-color: rgba(0,255,136,0.2);
+      background: linear-gradient(135deg, rgba(0,255,136,0.04), var(--surface2));
+    }
+
+    .badge {
+      position: absolute;
+      top: 20px; right: 20px;
+      font-size: 9px;
+      padding: 3px 8px;
+      background: var(--accent);
+      color: #000;
+      border-radius: 2px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+
+    /* === CONTACT === */
+    .contact-wrapper {
+      max-width: 600px;
+    }
+
+    .contact-line {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contact-line:first-child { border-top: 1px solid var(--border); }
+
+    .contact-key {
+      width: 120px;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+    }
+
+    .contact-val {
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .contact-val a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .contact-val a:hover { text-decoration: underline; }
+
+    /* === FOOTER === */
+    footer {
+      padding: 32px 60px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    footer .footer-logo { color: var(--accent); font-weight: 700; }
+
+    /* === ANIMATIONS === */
+    @keyframes blink { 50% { opacity: 0; } }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeLeft {
+      from { opacity: 0; transform: translate(20px, -50%); }
+      to { opacity: 1; transform: translate(0, -50%); }
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 1100px) {
+      .hero-terminal { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      nav ul { display: none; }
+      section, #hero { padding: 80px 24px; }
+      .about-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">OAI<span>://</span>sistemas</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experiencia</a></li>
+      <li><a href="#projects">Proyectos</a></li>
+      <li><a href="#contact">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-content">
+      <p class="hero-tag">Junior Systems Administrator · Barcelona</p>
+      <h1>Osama<br><span class="accent">Allouch</span><br>Ibrahimi</h1>
+      <p class="hero-subtitle">
+        Especialista en infraestructura IT, administración de sistemas Microsoft y coordinación de equipos de soporte. Convirtiendo procesos manuales en flujos automatizados.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">Ver proyectos →</a>
+        <a href="https://www.linkedin.com/in/osama-allouch" target="_blank" class="btn btn-ghost">LinkedIn</a>
+        <a href="mailto:osama080050@gmail.com" class="btn btn-ghost">Contactar</a>
+      </div>
+    </div>
+
+    <div class="hero-terminal">
+      <div class="term-titlebar">
+        <div class="term-dot red"></div>
+        <div class="term-dot yellow"></div>
+        <div class="term-dot green"></div>
+        <span class="term-title">bash — osama@nextret</span>
+      </div>
+      <div class="term-body" id="term-body"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-num">01.</span>
+      <h2 class="section-title">Sobre mí</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Técnico de sistemas con cinco años de formación IT y experiencia real en entornos corporativos. Actualmente en <strong style="color:#fff">NexTReT</strong>, compaginando soporte técnico avanzado N2/N3 con la coordinación operativa del equipo SAU.</p>
+        <p>Me especializo en administración Microsoft (Azure, Entra ID, Intune), plataformas ITSM como Freshservice y automatización de procesos que antes requerían intervención manual.</p>
+        <p>Disfruto de los retos donde convergen la infraestructura, el scripting y la mejora de procesos — y de pasar de "lo hemos hecho siempre así" a "ya no hace falta hacerlo".</p>
+      </div>
+      <div>
+        <div class="skills-list" id="skills-list">
+          <div class="skill-row">
+            <span class="skill-name">Microsoft Azure / Entra ID</span>
+            <div class="skill-bar"><div class="skill-fill" style="--w:0.85" data-w="0.85"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Microsoft Intune</span>
+            <div class="skill-bar"><div class="skill-fill" data-w="0.82"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Freshservice (ITSM)</span>
+            <div class="skill-bar"><div class="skill-fill" data-w="0.90"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Windows Server / AD</span>
+            <div class="skill-bar"><div class="skill-fill" data-w="0.80"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Scripting (PS / Bash)</span>
+            <div class="skill-bar"><div class="skill-fill" data-w="0.72"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Redes y VPN</span>
+            <div class="skill-bar"><div class="skill-fill" data-w="0.75"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Liderazgo de equipo</span>
+            <div class="skill-bar"><div class="skill-fill" data-w="0.78"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header">
+      <span class="section-num">02.</span>
+      <h2 class="section-title">Experiencia</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">ENE 2026 — PRESENTE</div>
+        <div class="timeline-company">NexTReT · Barcelona</div>
+        <div class="timeline-role">Técnico de Sistemas Junior · Coordinación SAU</div>
+        <div class="timeline-desc">
+          Rol híbrido de soporte técnico avanzado y coordinación operativa del equipo. Responsable de la plataforma Freshservice (interno y clientes), gestión del ciclo de vida de dispositivos con Intune y supervisión de SLAs y métricas del servicio.
+        </div>
+        <div class="timeline-tags">
+          <span class="tag">Microsoft Intune</span>
+          <span class="tag">Entra ID</span>
+          <span class="tag">Freshservice Admin</span>
+          <span class="tag">SLA Management</span>
+          <span class="tag blue">Team Lead</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dim"></div>
+        <div class="timeline-date">OCT 2025 — ENE 2026</div>
+        <div class="timeline-company">NexTReT · Barcelona</div>
+        <div class="timeline-role">Becario IT — Soporte & Proyectos</div>
+        <div class="timeline-desc">
+          Rol ampliado con participación en proyectos de migración, formación de usuarios y despliegue de infraestructuras. Coordinación entre equipos y clientes externos con visión orientada a la mejora continua.
+        </div>
+        <div class="timeline-tags">
+          <span class="tag">Migraciones</span>
+          <span class="tag">M365</span>
+          <span class="tag">Formación usuarios</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dim"></div>
+        <div class="timeline-date">ABR 2025 — OCT 2025</div>
+        <div class="timeline-company">NexTReT · Barcelona</div>
+        <div class="timeline-role">Becario IT Helpdesk</div>
+        <div class="timeline-desc">
+          Soporte técnico integral: incidencias N2/N3, administración de Active Directory, Azure, gestión de dispositivos físicos e inventario tecnológico. Gestión de accesos remotos via Citrix y FortiVPN.
+        </div>
+        <div class="timeline-tags">
+          <span class="tag">Active Directory</span>
+          <span class="tag">Azure</span>
+          <span class="tag">Citrix</span>
+          <span class="tag">FortiClient VPN</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot dim"></div>
+        <div class="timeline-date">ENE 2023 — JUL 2023</div>
+        <div class="timeline-company">Grup Informàtic R.M.C. · Barcelona</div>
+        <div class="timeline-role">Técnico de Sistemas Microinformáticos y Redes</div>
+        <div class="timeline-desc">
+          Soporte especializado en hardware y software, reparación y mantenimiento de equipos, virtualización y despliegue de entornos específicos.
+        </div>
+        <div class="timeline-tags">
+          <span class="tag">Hardware</span>
+          <span class="tag">Virtualización</span>
+          <span class="tag">Networking</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header">
+      <span class="section-num">03.</span>
+      <h2 class="section-title">Proyectos</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card featured">
+        <div class="badge">DESTACADO</div>
+        <div class="project-num">PRJ-001</div>
+        <div class="project-icon">🪟</div>
+        <div class="project-title">Migración W10 → W11</div>
+        <div class="project-desc">
+          Planificación y ejecución del rollout corporativo de Windows 11 en el parque tecnológico de la empresa. Validación de compatibilidad por modelo, segmentación por fases y coordinación con usuarios finales para minimizar el impacto operativo.
+        </div>
+        <div class="project-stack">
+          <span class="stack-chip">Intune</span>
+          <span class="stack-chip">Windows Autopilot</span>
+          <span class="stack-chip">Entra ID</span>
+          <span class="stack-chip">Deployment Rings</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">PRJ-002</div>
+        <div class="project-icon">📜</div>
+        <div class="project-title">Gestión de Licencias vía Scripting</div>
+        <div class="project-desc">
+          Automatización de asignación, revisión y revocación de licencias Microsoft 365 en Azure mediante scripting. Reducción de errores manuales y visibilidad centralizada del consumo de licencias en tiempo real.
+        </div>
+        <div class="project-stack">
+          <span class="stack-chip">PowerShell</span>
+          <span class="stack-chip">Azure AD / Graph API</span>
+          <span class="stack-chip">Microsoft 365</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">PRJ-003</div>
+        <div class="project-icon">⚙️</div>
+        <div class="project-title">Automatización del Maquetado de Equipos</div>
+        <div class="project-desc">
+          Diseño e implementación de un flujo de aprovisionamiento automatizado para nuevos equipos corporativos: desde el unboxing hasta el escritorio del usuario, sin intervención manual del técnico en cada paso.
+        </div>
+        <div class="project-stack">
+          <span class="stack-chip">Windows Autopilot</span>
+          <span class="stack-chip">Intune</span>
+          <span class="stack-chip">Deployment Profiles</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">PRJ-004</div>
+        <div class="project-icon">🤖</div>
+        <div class="project-title">Automatización de Freshservice</div>
+        <div class="project-desc">
+          Configuración avanzada de workflows, automatizaciones y reglas de negocio en Freshservice para múltiples clientes. Reducción del tiempo de resolución y enrutamiento inteligente de tickets sin intervención humana.
+        </div>
+        <div class="project-stack">
+          <span class="stack-chip">Freshservice</span>
+          <span class="stack-chip">Workflow Automator</span>
+          <span class="stack-chip">Business Rules</span>
+          <span class="stack-chip">SLA Policies</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">PRJ-005</div>
+        <div class="project-icon">🔗</div>
+        <div class="project-title">Integración Freshservice × Freshservice via API</div>
+        <div class="project-desc">
+          Diseño e implementación de una integración bidireccional entre dos instancias independientes de Freshservice (cliente–proveedor) mediante la API REST. Sincronización de tickets, estados y agentes sin duplicidad de información.
+        </div>
+        <div class="project-stack">
+          <span class="stack-chip">Freshservice API</span>
+          <span class="stack-chip">REST / JSON</span>
+          <span class="stack-chip">Webhooks</span>
+          <span class="stack-chip">Automatización</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">PRJ-006</div>
+        <div class="project-icon">🗂️</div>
+        <div class="project-title">Diseño y Estructuración del ITSM</div>
+        <div class="project-desc">
+          Arquitectura completa de la plataforma Freshservice para clientes desde cero: diseño del catálogo de servicios, árbol de categorías, gestión del CMDB, estructura de agentes y grupos, y políticas de escalado y SLA.
+        </div>
+        <div class="project-stack">
+          <span class="stack-chip">Freshservice</span>
+          <span class="stack-chip">CMDB</span>
+          <span class="stack-chip">Service Catalog</span>
+          <span class="stack-chip">ITIL</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <span class="section-num">04.</span>
+      <h2 class="section-title">Contacto</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-wrapper">
+      <p style="font-size:14px; color:var(--muted); margin-bottom:40px; line-height:1.8;">
+        Abierto a nuevas oportunidades, colaboraciones o simplemente una buena conversación sobre infraestructura IT.
+      </p>
+      <div class="contact-line">
+        <span class="contact-key">EMAIL</span>
+        <span class="contact-val"><a href="mailto:osama080050@gmail.com">osama080050@gmail.com</a></span>
+      </div>
+      <div class="contact-line">
+        <span class="contact-key">LINKEDIN</span>
+        <span class="contact-val"><a href="https://www.linkedin.com/in/osama-allouch" target="_blank">linkedin.com/in/osama-allouch</a></span>
+      </div>
+      <div class="contact-line">
+        <span class="contact-key">UBICACIÓN</span>
+        <span class="contact-val">Barcelona, Cataluña — ES</span>
+      </div>
+      <div class="contact-line">
+        <span class="contact-key">IDIOMAS</span>
+        <span class="contact-val">Español · Catalán · Inglés · Tamazight</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">OAI://</span>
+    <span id="footer-date"></span>
+    <span>Diseñado y construido desde Barcelona</span>
+  </footer>
+
+  <script>
+    // === TERMINAL ANIMATION ===
+    const termBody = document.getElementById('term-body');
+    const lines = [
+      { prompt: 'osama@nextret:~$', cmd: 'whoami', out: 'Osama Allouch Ibrahimi' },
+      { prompt: 'osama@nextret:~$', cmd: 'cat role.txt', out: 'Junior Sysadmin · Support Team Lead' },
+      { prompt: 'osama@nextret:~$', cmd: 'ls skills/', out: 'azure/  intune/  freshservice/  scripting/  networks/' },
+      { prompt: 'osama@nextret:~$', cmd: 'uptime --experience', out: '~2 años en producción · 5 años de formación' },
+      { prompt: 'osama@nextret:~$', cmd: '', out: null },
+    ];
+
+    let i = 0;
+    function addLine() {
+      if (i >= lines.length) return;
+      const l = lines[i++];
+      const div = document.createElement('div');
+      div.className = 'term-line';
+      div.innerHTML = `<span class="term-prompt">${l.prompt}</span><span class="term-cmd"> ${l.cmd}</span>`;
+      termBody.appendChild(div);
+      if (l.out) {
+        setTimeout(() => {
+          const out = document.createElement('div');
+          out.className = 'term-out';
+          out.textContent = l.out;
+          termBody.appendChild(out);
+          setTimeout(addLine, 600);
+        }, 300);
+      } else {
+        // last line with cursor
+        const cur = document.createElement('span');
+        cur.className = 'cursor';
+        div.appendChild(cur);
+      }
+    }
+    setTimeout(addLine, 1400);
+
+    // === SKILL BARS ON SCROLL ===
+    const fills = document.querySelectorAll('.skill-fill');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const w = parseFloat(e.target.dataset.w);
+          e.target.style.width = (w * 100) + '%';
+          e.target.classList.add('animated');
+        }
+      });
+    }, { threshold: 0.3 });
+    fills.forEach(f => { f.style.width = '0'; obs.observe(f); });
+
+    // === TIMELINE ANIMATION ===
+    const items = document.querySelectorAll('.timeline-item');
+    const obsT = new IntersectionObserver(entries => {
+      entries.forEach((e, idx) => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.2 });
+    items.forEach(it => obsT.observe(it));
+
+    // === FOOTER DATE ===
+    document.getElementById('footer-date').textContent = new Date().toLocaleDateString('es-ES', {
+      day: '2-digit', month: 'long', year: 'numeric'
+    });
+  </script>
+</body>
+</html>
